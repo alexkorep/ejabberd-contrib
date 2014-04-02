@@ -426,6 +426,11 @@ commands() ->
 			module = ?MODULE, function = push_roster,
 			args = [{file, string}, {user, string}, {host, string}],
 			result = {res, rescode}},
+     #ejabberd_commands{name = push_roster_text, tags = [roster],
+			desc = "Push multiple roster items to a user",
+			module = ?MODULE, function = push_roster_text,
+			args = [{roster, string}, {user, string}, {host, string}],
+			result = {res, rescode}},
      #ejabberd_commands{name = push_roster_all, tags = [roster],
 			desc = "Push template roster from file to all those users",
 			module = ?MODULE, function = push_roster_all,
@@ -1135,6 +1140,12 @@ make_roster_xmlrpc(Roster) ->
 push_roster(File, User, Server) ->
     {ok, [Roster]} = file:consult(File),
     subscribe_roster({User, Server, "", User}, Roster).
+    
+push_roster_text(RosterText, User, Server) ->
+    {ok,Tokens,_} = erl_scan:string(RosterText),
+    {ok,Roster} = erl_parse:parse_term(Tokens),
+    subscribe_roster({User, Server, "", User}, Roster).
+
 
 push_roster_all(File) ->
     {ok, [Roster]} = file:consult(File),
