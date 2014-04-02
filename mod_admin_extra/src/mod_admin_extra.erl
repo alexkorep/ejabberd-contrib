@@ -66,6 +66,7 @@
 	 process_rosteritems/5,
 	 get_roster/2,
 	 push_roster/3,
+	 push_roster_text/3,
 	 push_roster_all/1,
 	 push_alltoall/2,
 	 %% mod_last
